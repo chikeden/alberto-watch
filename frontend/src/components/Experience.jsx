@@ -7,9 +7,9 @@ import {dur,ease} from '../motion/tokens';
 
 export function Preloader(){
   const reduced=useReducedMotion();
-  const [visible,setVisible]=useState(()=>!reduced&&!sessionStorage.getItem('alberto-intro-seen'));
+  const [visible,setVisible]=useState(()=>{try{return !reduced&&!sessionStorage.getItem('alberto-intro-seen')}catch{return false}});
   useEffect(()=>{if(reduced)setVisible(false)},[reduced]);
-  useEffect(()=>{if(!visible)return;sessionStorage.setItem('alberto-intro-seen','1');const id=setTimeout(()=>setVisible(false),1000);return()=>clearTimeout(id)},[visible]);
+  useEffect(()=>{if(!visible)return;try{sessionStorage.setItem('alberto-intro-seen','1')}catch{}const id=setTimeout(()=>setVisible(false),1000);return()=>clearTimeout(id)},[visible]);
   return <AnimatePresence>{visible&&<motion.div className="preloader" initial={{clipPath:'inset(0 0 0 0)'}} exit={{clipPath:'inset(0 0 100% 0)'}} transition={{duration:dur.base,ease:ease.inOut}} aria-hidden="true"><svg viewBox="0 0 100 100"><motion.circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth=".5" initial={{pathLength:0}} animate={{pathLength:1}} transition={{duration:dur.slow,ease:ease.lux}}/></svg><div className="preloader-word">{'ALBERTO'.split('').map((letter,i)=><span key={i}><motion.b initial={{y:'110%'}} animate={{y:0}} transition={{duration:dur.base,delay:i*.07,ease:ease.lux}}>{letter}</motion.b></span>)}</div></motion.div>}</AnimatePresence>
 }
 

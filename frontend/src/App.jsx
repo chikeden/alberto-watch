@@ -24,7 +24,7 @@ function ProtectedAdmin(){
 
 export default function App(){
   const location=useLocation();
-  useEffect(()=>window.scrollTo(0,0),[location.pathname]);
+  useEffect(()=>{window.scrollTo(0,0)},[location.pathname]);
   return <>
     <Preloader/>
     <Header/>
