@@ -49,3 +49,5 @@ Contact messages and newsletter addresses are stored in MongoDB. Email notificat
 ## Deployment
 
 Deploy `frontend/dist` to a static host and run the Express API on a Node host with MongoDB Atlas and Cloudinary configured. Use HTTPS, an exact `FRONTEND_ORIGIN`, and `NODE_ENV=production`. For cookie authentication, place frontend and API on subdomains of the same site or configure the cookie policy for your chosen hosts. Set `VITE_API_URL` to the API origin plus `/api` before building the frontend.
+
+GitHub Actions runs `npm test` and `npm run build` for every push to `main` and every pull request.
