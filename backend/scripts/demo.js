@@ -1,0 +1,12 @@
+import {randomBytes} from 'node:crypto';
+process.env.USE_IN_MEMORY_DB='true';
+process.env.JWT_SECRET=randomBytes(32).toString('hex');
+process.env.ADMIN_EMAIL='admin@alberto.local';
+process.env.ADMIN_PASSWORD=randomBytes(15).toString('base64url');
+process.env.CLOUDINARY_CLOUD_NAME='';
+const {startServer}=await import('../server.js');
+await startServer();
+console.log('Local demo: http://localhost:5173');
+console.log(`Admin: ${process.env.ADMIN_EMAIL}`);
+console.log(`Password: ${process.env.ADMIN_PASSWORD}`);
+console.log('Demo data is temporary and resets when the server stops.');

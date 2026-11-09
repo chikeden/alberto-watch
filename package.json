@@ -1,0 +1,1 @@
+{"name":"alberto-watch","private":true,"scripts":{"dev":"concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"","demo":"concurrently \"npm run demo -w backend\" \"npm run dev -w frontend\"","build":"npm run build -w frontend","test":"npm run test -w backend"},"workspaces":["frontend","backend"],"devDependencies":{"concurrently":"^9.1.2"}}

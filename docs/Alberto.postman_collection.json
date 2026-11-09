@@ -1,0 +1,21 @@
+{
+  "info":{"name":"Alberto Watch API","description":"Run against the local demo or a configured Express deployment.","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[{"key":"baseUrl","value":"http://localhost:4000"},{"key":"productId","value":""},{"key":"productSlug","value":"meridian"}],
+  "item":[
+    {"name":"Health","request":{"method":"GET","url":"{{baseUrl}}/api/health"}},
+    {"name":"Register","request":{"method":"POST","url":"{{baseUrl}}/api/auth/register","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"name\":\"Customer\",\"email\":\"customer@example.com\",\"password\":\"change-this-password\"}"}}},
+    {"name":"Login","request":{"method":"POST","url":"{{baseUrl}}/api/auth/login","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"email\":\"admin@alberto.local\",\"password\":\"paste-demo-password\"}"}}},
+    {"name":"Current user","request":{"method":"GET","url":"{{baseUrl}}/api/auth/me"}},
+    {"name":"Logout","request":{"method":"POST","url":"{{baseUrl}}/api/auth/logout"}},
+    {"name":"List watches","request":{"method":"GET","url":"{{baseUrl}}/api/products?category=luxury&q=&page=1"}},
+    {"name":"Watch detail","request":{"method":"GET","url":"{{baseUrl}}/api/products/{{productSlug}}"}},
+    {"name":"Create watch","request":{"method":"POST","url":"{{baseUrl}}/api/products","body":{"mode":"formdata","formdata":[{"key":"product","value":"{\"name\":\"New Piece\",\"slug\":\"new-piece\",\"category\":\"luxury\",\"price\":1200,\"description\":\"A 40 mm mechanical instrument.\"}","type":"text"},{"key":"images","type":"file","src":""}]}}},
+    {"name":"Edit watch","request":{"method":"PUT","url":"{{baseUrl}}/api/products/{{productId}}","body":{"mode":"formdata","formdata":[{"key":"product","value":"{\"price\":1250}","type":"text"}]}}},
+    {"name":"Delete watch","request":{"method":"DELETE","url":"{{baseUrl}}/api/products/{{productId}}"}},
+    {"name":"Visitor total","request":{"method":"GET","url":"{{baseUrl}}/api/visitors"}},
+    {"name":"Count visit","request":{"method":"POST","url":"{{baseUrl}}/api/visitors"}},
+    {"name":"Contact","request":{"method":"POST","url":"{{baseUrl}}/api/contact","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"name\":\"Customer\",\"email\":\"customer@example.com\",\"message\":\"I would like to arrange a viewing.\"}"}}},
+    {"name":"Newsletter","request":{"method":"POST","url":"{{baseUrl}}/api/newsletter","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\"email\":\"customer@example.com\"}"}}},
+    {"name":"Admin statistics","request":{"method":"GET","url":"{{baseUrl}}/api/admin/stats"}}
+  ]
+}
