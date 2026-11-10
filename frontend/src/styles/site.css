@@ -30,3 +30,5 @@
 }
 main{min-height:100svh}
 .manifesto .eyebrow{color:var(--umber)}
+
+.dashboard-sidebar{display:flex;gap:1.5rem;margin:1.5rem 0 2rem}.dashboard-sidebar a{color:var(--brass);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}.dashboard-sidebar a:hover{text-decoration:underline}#watches,#messages{scroll-margin-top:90px}

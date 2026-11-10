@@ -1,7 +1,8 @@
 import {lazy,Suspense,useEffect} from 'react';
 import {Navigate,Route,Routes,useLocation} from 'react-router-dom';
 import {AnimatePresence,motion} from 'motion/react';
-import {Header,Footer} from './components/Shell';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import {Preloader} from './components/Experience';
 import {useAuth} from './context/AuthContext';
 import {dur,ease} from './motion/tokens';
@@ -13,13 +14,14 @@ const Technology=lazy(()=>import('./pages/Technology'));
 const Gallery=lazy(()=>import('./pages/Gallery'));
 const Stores=lazy(()=>import('./pages/Stores'));
 const Contact=lazy(()=>import('./pages/Contact'));
-const Auth=lazy(()=>import('./pages/Auth'));
-const Admin=lazy(()=>import('./pages/Admin'));
+const Login=lazy(()=>import('./pages/Login'));
+const Register=lazy(()=>import('./pages/Register'));
+const Dashboard=lazy(()=>import('./pages/Dashboard'));
 
 function ProtectedAdmin(){
   const {user,loading}=useAuth();
   if(loading)return <div className="loading">Checking session…</div>;
-  return user?.role==='admin'?<Admin/>:<Navigate to="/login"/>;
+  return user?.role==='admin'?<Dashboard/>:<Navigate to="/login"/>;
 }
 
 export default function App(){
@@ -27,7 +29,7 @@ export default function App(){
   useEffect(()=>{window.scrollTo(0,0)},[location.pathname]);
   return <>
     <Preloader/>
-    <Header/>
+    <Navbar/>
     <main id="main">
       <AnimatePresence mode="wait">
         <motion.div key={location.pathname} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-12}} transition={{duration:dur.fast,ease:ease.inOut}}>
@@ -41,8 +43,8 @@ export default function App(){
               <Route path="/gallery" element={<Gallery/>}/>
               <Route path="/stores" element={<Stores/>}/>
               <Route path="/contact" element={<Contact/>}/>
-              <Route path="/login" element={<Auth/>}/>
-              <Route path="/register" element={<Auth register/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/register" element={<Register/>}/>
               <Route path="/admin" element={<ProtectedAdmin/>}/>
               <Route path="*" element={<Navigate to="/"/>}/>
             </Routes>

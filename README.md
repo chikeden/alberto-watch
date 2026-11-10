@@ -2,6 +2,29 @@
 
 Alberto is a React/Vite watch-house site with an Express API, MongoDB Atlas, cookie authentication, an admin desk, and image uploads. The frontend and API deploy together as Vercel Services so browser requests use the same origin.
 
+## Project folders
+
+The React project follows the group assignment layout inside `frontend/`. The repository also includes `backend/` because the catalog, accounts, admin dashboard, and forms use an Express API.
+
+```text
+ALBERTO-WATCH/
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/   (Navbar, Footer, Sidebar, shared UI)
+│   │   ├── pages/        (Home, Login, Register, Dashboard, About, and other pages)
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   └── package.json
+├── backend/              (Express API, models, tests)
+├── package.json          (runs both projects)
+└── README.md
+```
+
+Open the repository root in VS Code to work on both the frontend and backend. Run `npm run demo` from this root for a local demonstration.
+
 - Live site: https://alberto-watch-beige.vercel.app
 - Source: https://github.com/chikeden/alberto-watch
 
