@@ -59,3 +59,5 @@ Run `npm test` for API integration tests and `npm run build` for the frontend. G
 ![Desktop homepage](docs/screenshots/home-desktop.png)
 
 ![Mobile homepage](docs/screenshots/home-mobile.png)
+
+The [deployment QA notes](docs/qa.md) include live checks, Lighthouse results, and known launch limits.
