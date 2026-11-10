@@ -1,7 +1,7 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
 import {AnimatePresence,motion,useReducedMotion} from 'motion/react';
 import {Container,Eyebrow} from '../components/ui';
-import Watch from '../components/Watch';
+import ModelWatch from '../components/ModelWatch';
 import {api} from '../services/api';
 import {cloudImage,cloudSrcSet,cloudPlaceholder} from '../services/images';
 import {dur,ease} from '../motion/tokens';
@@ -9,7 +9,7 @@ import {dur,ease} from '../motion/tokens';
 const money=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
 const specNames={caseDiameterMm:'Case diameter',thicknessMm:'Case thickness',lugWidthMm:'Lug width',caseMaterial:'Case material',movement:'Movement',powerReserveH:'Power reserve',waterResistanceM:'Water resistance',crystal:'Crystal',strap:'Strap'};
 const specValue=(key,value)=>`${value}${key.endsWith('Mm')?' mm':key.endsWith('H')?' h':key.endsWith('M')?' m':''}`;
-function ProductImage({item,main=false}){const image=item.images?.[0];return image?.url?<img src={cloudImage(image.url,main?1200:800)} srcSet={cloudSrcSet(image.url)} sizes={main?'(max-width: 760px) 100vw, 50vw':'(max-width: 760px) 100vw, 33vw'} style={{backgroundImage:`url(${cloudPlaceholder(image.url)})`}} alt={image.alt} width="800" height="1000" loading={main?'eager':'lazy'}/>:<Watch variant={item.category} small={!main}/>}
+function ProductImage({item,main=false}){const image=item.images?.[0];return image?.url?<img src={cloudImage(image.url,main?1200:800)} srcSet={cloudSrcSet(image.url)} sizes={main?'(max-width: 760px) 100vw, 50vw':'(max-width: 760px) 100vw, 33vw'} style={{backgroundImage:`url(${cloudPlaceholder(image.url)})`}} alt={image.alt} width="800" height="1000" loading={main?'eager':'lazy'}/>:<ModelWatch model={item.slug} variant={item.category} small={!main}/>}
 function Modal({item,onClose}){
   const ref=useRef(null),reduced=useReducedMotion();
   useEffect(()=>{const last=document.activeElement;document.body.style.overflow='hidden';ref.current?.focus();const key=e=>{if(e.key==='Escape')onClose();if(e.key==='Tab'){const nodes=ref.current?.querySelectorAll('button,a,[tabindex]:not([tabindex="-1"])');if(!nodes?.length)return;const first=nodes[0],end=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();end.focus()}else if(!e.shiftKey&&document.activeElement===end){e.preventDefault();first.focus()}}};document.addEventListener('keydown',key);return()=>{document.body.style.overflow='';document.removeEventListener('keydown',key);last?.focus()}},[onClose]);

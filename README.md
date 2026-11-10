@@ -26,7 +26,7 @@ Production requires `MONGODB_URI` (or `MONGO_URI`) and `JWT_SECRET`. The current
 
 The hosted API seeds nine watches if the catalog is empty. The production admin email is `onwuad02@gmail.com`; its generated initial password is stored only in the Git-ignored `admin-credentials.local.txt` on the owner's computer. Store it securely and remove that local file when no longer needed.
 
-The watch illustrations are original code-built SVGs. Uploaded product photos replace them in the catalog. No third-party product photos are bundled.
+The nine named watches have individual code-built SVG illustrations with different cases, dials, straps, indices, and complications. Uploaded product photos replace them in the catalog. No third-party product photos are bundled.
 
 ## API
 
@@ -59,5 +59,6 @@ Run `npm test` for API integration tests and `npm run build` for the frontend. G
 ![Desktop homepage](docs/screenshots/home-desktop.png)
 
 ![Mobile homepage](docs/screenshots/home-mobile.png)
+![Distinct catalog watches](docs/screenshots/catalog-distinct.png)
 
 The [deployment QA notes](docs/qa.md) include live checks, Lighthouse results, and known launch limits.
