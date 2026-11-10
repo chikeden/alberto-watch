@@ -30,7 +30,7 @@ export function ManifestoWords(){
   const {scrollYProgress}=useScroll({target:ref,offset:['start .85','end .25']});
   return <h2 ref={ref} className="manifesto-words">{words.map((word,i)=><Word key={i} word={word} progress={scrollYProgress} start={i/words.length*.85} reduced={reduced}/>)}</h2>
 }
-function Word({word,progress,start,reduced}){const opacity=useTransform(progress,[start,start+.18],[.2,1]);return <motion.span style={{opacity:reduced?1:opacity}}>{word}{' '}</motion.span>}
+function Word({word,progress,start,reduced}){const opacity=useTransform(progress,[start,start+.18],[.72,1]);return <motion.span style={{opacity:reduced?1:opacity}}>{word}{' '}</motion.span>}
 
 export function MovementExploded(){
   const ref=useRef(null),reduced=useReducedMotion();

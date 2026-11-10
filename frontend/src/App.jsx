@@ -5,8 +5,8 @@ import {Header,Footer} from './components/Shell';
 import {Preloader} from './components/Experience';
 import {useAuth} from './context/AuthContext';
 import {dur,ease} from './motion/tokens';
+import Home from './pages/Home';
 
-const Home=lazy(()=>import('./pages/Home'));
 const Products=lazy(()=>import('./pages/Products'));
 const About=lazy(()=>import('./pages/About'));
 const Technology=lazy(()=>import('./pages/Technology'));

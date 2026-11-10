@@ -28,3 +28,5 @@
   .sticky-hero{position:relative;height:auto;min-height:100svh}
   .sticky-hero .hero-grid{min-height:700px}
 }
+main{min-height:100svh}
+.manifesto .eyebrow{color:var(--umber)}
