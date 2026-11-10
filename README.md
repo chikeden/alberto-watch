@@ -49,7 +49,7 @@ Production requires `MONGODB_URI` (or `MONGO_URI`) and `JWT_SECRET`. The current
 
 The hosted API seeds nine watches if the catalog is empty. The production admin email is `onwuad02@gmail.com`; its generated initial password is stored only in the Git-ignored `admin-credentials.local.txt` on the owner's computer. Store it securely and remove that local file when no longer needed.
 
-The nine named watches have individual code-built SVG illustrations with different cases, dials, straps, indices, and complications. Uploaded product photos replace them in the catalog. No third-party product photos are bundled.
+The nine named watches now use real reference photographs in the homepage, catalog, gallery, and About page. These are third-party watches shown for a concept project, not photographs of Alberto products. The page labels this distinction, and [photo sources](docs/photo-sources.md) lists the photographers and licenses. Uploaded product photos replace references in the catalog and featured cards. The original code-built SVG illustrations remain as fallbacks for new products without photos.
 
 The Alberto logo is an original SVG mark used in the navigation, homepage hero, footer, and browser tab. The reusable React version is in `frontend/src/components/Brand.jsx`; the standalone file is `frontend/public/logo.svg`.
 

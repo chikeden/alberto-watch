@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import {Link} from 'react-router-dom';
 import {AnimatePresence,motion,useReducedMotion,useScroll,useSpring,useTransform} from 'motion/react';
 import {Container,Eyebrow} from './ui';
-import Watch from './Watch';
+
 import {BrandMark} from './Brand';
 import {dur,ease} from '../motion/tokens';
 
@@ -19,10 +19,10 @@ export function HeroScene(){
   const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
   const smooth=useSpring(scrollYProgress,{stiffness:120,damping:30});
   const scale=useTransform(smooth,[0,.8],[1,.68]);
-  const bezel=useTransform(smooth,[0,.8],[0,30]);
+
   const copyOpacity=useTransform(smooth,[0,.5],[1,0]);
   const teaserOpacity=useTransform(smooth,[.55,.85],[0,1]);
-  return <section ref={ref} className="hero-scroll"><div className="hero sticky-hero"><Container className="hero-grid"><motion.div className="hero-copy" style={reduced?{}:{opacity:copyOpacity}}><div className="hero-identity"><BrandMark className="hero-brand-mark"/><Eyebrow>ALBERTO WATCH COMPANY / EST. 2024</Eyebrow></div><h1><span className="line-mask"><motion.span initial={{y:'110%'}} animate={{y:0}} transition={{duration:dur.hero,ease:ease.lux}}>Every second</motion.span></span><span className="line-mask"><motion.em initial={{y:'110%'}} animate={{y:0}} transition={{duration:dur.hero,delay:.15,ease:ease.lux}}>has weight.</motion.em></span></h1><p>Watches made to mark the moments you choose to keep.</p><Link className="button" to="/products"><span>View the collection</span></Link><div className="trust">Two-year warranty <b>·</b> Sapphire crystal <b>·</b> Complimentary first service</div></motion.div><div className="hero-watch"><div className="hero-halo"/><motion.div className="hero-watch-motion" style={reduced?{}:{scale,rotate:bezel}}><Watch live/></motion.div></div><div className="hero-caption mono"><span>AL-01 / MERIDIAN</span><span>LOCAL TIME IN MOTION</span></div><motion.div className="hero-teaser" style={{opacity:reduced?1:teaserOpacity}}><Eyebrow>THREE COLLECTIONS</Eyebrow><p>One attention to detail.</p><Link to="/products">Explore the collection ↗</Link></motion.div></Container></div></section>
+  return <section ref={ref} className="hero-scroll"><div className="hero sticky-hero"><Container className="hero-grid"><motion.div className="hero-copy" style={reduced?{}:{opacity:copyOpacity}}><div className="hero-identity"><BrandMark className="hero-brand-mark"/><Eyebrow>ALBERTO WATCH COMPANY / EST. 2024</Eyebrow></div><h1><span className="line-mask"><motion.span initial={{y:'110%'}} animate={{y:0}} transition={{duration:dur.hero,ease:ease.lux}}>Every second</motion.span></span><span className="line-mask"><motion.em initial={{y:'110%'}} animate={{y:0}} transition={{duration:dur.hero,delay:.15,ease:ease.lux}}>has weight.</motion.em></span></h1><p>Watches made to mark the moments you choose to keep.</p><Link className="button" to="/products"><span>View the collection</span></Link><div className="trust">Two-year warranty <b>·</b> Sapphire crystal <b>·</b> Complimentary first service</div></motion.div><div className="hero-watch"><div className="hero-halo"/><motion.div className="hero-watch-motion" style={reduced?{}:{scale}}><img className="hero-reference-photo" src="/watch-photos/hero.jpg" alt="Representative photograph of a mechanical wristwatch" fetchPriority="high"/></motion.div></div><div className="hero-caption mono"><span>REFERENCE WATCH PHOTOGRAPHY</span><span>ALBERTO CONCEPT COLLECTION</span></div><motion.div className="hero-teaser" style={{opacity:reduced?1:teaserOpacity}}><Eyebrow>THREE COLLECTIONS</Eyebrow><p>One attention to detail.</p><Link to="/products">Explore the collection ↗</Link></motion.div></Container></div></section>
 }
 
 export function ManifestoWords(){
