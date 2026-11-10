@@ -7,13 +7,14 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 import {v2 as cloudinary} from 'cloudinary';
+import {put as putBlob,del as deleteBlob} from '@vercel/blob';
 import {rateLimit} from 'express-rate-limit';
 import Product from './models/Product.js';
 import User from './models/User.js';
 import Visitor from './models/Visitor.js';
 import Message from './models/Message.js';
 import Subscriber from './models/Subscriber.js';
-import {seedData} from './scripts/seedData.js';
+import {seedData,ensureInitialAdmin} from './scripts/seedData.js';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import {mkdir,writeFile,unlink} from 'node:fs/promises';
@@ -21,6 +22,29 @@ import path from 'node:path';
 
 const app=express();
 app.disable('x-powered-by');
+let connectionPromise;
+async function connectDatabase(){
+  if(mongoose.connection.readyState===1)return;
+  if(!process.env.MONGO_URI&&!process.env.MONGODB_URI)throw new Error('MongoDB connection is not configured');
+  connectionPromise ||= mongoose.connect(process.env.MONGO_URI||process.env.MONGODB_URI)
+    .then(async()=>{
+      if(process.env.VERCEL){
+        if(await Product.estimatedDocumentCount()===0)await seedData();
+        if(process.env.ADMIN_EMAIL&&process.env.ADMIN_PASSWORD)await ensureInitialAdmin(process.env.ADMIN_EMAIL,process.env.ADMIN_PASSWORD);
+      }
+    })
+    .catch(error=>{connectionPromise=undefined;throw error});
+  await connectionPromise;
+}
+if(process.env.VERCEL){
+  app.use('/api',async(req,res,next)=>{
+    try{
+      if(!process.env.JWT_SECRET)throw new Error('JWT_SECRET is not configured');
+      await connectDatabase();
+      next();
+    }catch(error){console.error('API configuration or database connection failed:',error.message);res.status(503).json({error:{code:'SERVICE_UNAVAILABLE',message:'The API is temporarily unavailable'}})}
+  });
+}
 app.use(cors({origin:process.env.FRONTEND_ORIGIN||'http://localhost:5173',credentials:true}));
 app.use(express.json({limit:'1mb'}));
 app.use(cookieParser());
@@ -50,10 +74,15 @@ const uploadAsset=async file=>{
     await writeFile(path.join(localUploadDir,name),file.buffer);
     return {secure_url:`/api/uploads/${name}`,public_id:`local:${name}`};
   }
-  if(!process.env.CLOUDINARY_CLOUD_NAME)throw new Error('Cloudinary credentials are not configured');
+  if(!process.env.CLOUDINARY_CLOUD_NAME){
+    if(!process.env.BLOB_READ_WRITE_TOKEN)throw new Error('Image storage is not configured');
+    const extension=file.mimetype==='image/png'?'png':file.mimetype==='image/webp'?'webp':'jpg';
+    const blob=await putBlob(`watches/${randomUUID()}.${extension}`,file.buffer,{access:'public',contentType:file.mimetype});
+    return {secure_url:blob.url,public_id:`blob:${blob.url}`};
+  }
   return new Promise((resolve,reject)=>{const stream=cloudinary.uploader.upload_stream({folder:'alberto-watches',resource_type:'image'},(error,result)=>error?reject(error):resolve(result));stream.end(file.buffer)});
 };
-const removeAsset=async publicId=>{if(publicId.startsWith('local:'))return unlink(path.join(localUploadDir,publicId.slice(6))).catch(()=>{});return cloudinary.uploader.destroy(publicId)};
+const removeAsset=async publicId=>{if(publicId.startsWith('local:'))return unlink(path.join(localUploadDir,publicId.slice(6))).catch(()=>{});if(publicId.startsWith('blob:'))return deleteBlob(publicId.slice(5));return cloudinary.uploader.destroy(publicId)};
 const bodyProduct=req=>req.body.product?JSON.parse(req.body.product):req.body;
 const parseProduct=req=>{const raw=bodyProduct(req);const allowed=['name','slug','category','price','currency','description','specs','featured','stock'];return Object.fromEntries(allowed.filter(k=>raw[k]!==undefined).map(k=>[k,raw[k]]))};
 const validateProduct=p=>typeof p.name==='string'&&p.name.trim().length>1&&/^[a-z0-9-]+$/.test(p.slug||'')&&['luxury','vintage','smart'].includes(p.category)&&p.price!==''&&Number.isFinite(Number(p.price))&&Number(p.price)>=0&&typeof p.description==='string'&&p.description.trim().length>3;
@@ -76,7 +105,8 @@ export async function startServer(){
     memoryServer=await MongoMemoryServer.create();
     uri=memoryServer.getUri();
   }
-  await mongoose.connect(uri);
+  if(process.env.USE_IN_MEMORY_DB==='true')await mongoose.connect(uri);
+  else await connectDatabase();
   if(memoryServer)await seedData({adminEmail:process.env.ADMIN_EMAIL,adminPassword:process.env.ADMIN_PASSWORD});
   const port=Number(process.env.PORT)||4000;
   const server=app.listen(port,()=>console.log(`Alberto API listening on ${port}`));
@@ -86,3 +116,4 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   startServer().catch(error=>{console.error('Server startup failed',error);process.exitCode=1});
 }
 export {app};
+export default app;

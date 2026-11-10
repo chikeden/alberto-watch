@@ -3,3 +3,8 @@ dist
 .env
 *.log
 backend/uploads
+
+.vercel
+.env*
+admin-credentials.local.txt
+admin-login.local.json

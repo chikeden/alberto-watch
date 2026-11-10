@@ -21,7 +21,12 @@ export async function seedData({adminEmail,adminPassword}={}){
     await Product.updateOne({slug},{$set:{name,slug,category,price,currency:'USD',description:`A ${caseDiameterMm} mm ${category==='smart'?'connected':'mechanical'} instrument with a restrained dial and hand-finished case.`,specs:{caseDiameterMm,thicknessMm,lugWidthMm:category==='smart'?22:20,caseMaterial:'316L stainless steel',movement,powerReserveH,waterResistanceM,crystal:'Sapphire',strap},featured:i<3,stock:12}},{upsert:true});
   }
   if(adminEmail&&adminPassword){
-    if(adminPassword.length<12)throw new Error('ADMIN_PASSWORD must be at least 12 characters');
-    await User.updateOne({email:adminEmail.toLowerCase()},{$set:{name:'Alberto Admin',email:adminEmail.toLowerCase(),passwordHash:await bcrypt.hash(adminPassword,12),role:'admin'}},{upsert:true});
+    await ensureInitialAdmin(adminEmail,adminPassword);
   }
+}
+
+export async function ensureInitialAdmin(adminEmail,adminPassword){
+  if(adminPassword.length<12)throw new Error('ADMIN_PASSWORD must be at least 12 characters');
+  const email=adminEmail.toLowerCase();
+  await User.updateOne({email},{$set:{name:'Alberto Admin',email,passwordHash:await bcrypt.hash(adminPassword,12),role:'admin'}},{upsert:true});
 }
