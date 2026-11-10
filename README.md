@@ -51,6 +51,8 @@ The hosted API seeds nine watches if the catalog is empty. The production admin 
 
 The nine named watches have individual code-built SVG illustrations with different cases, dials, straps, indices, and complications. Uploaded product photos replace them in the catalog. No third-party product photos are bundled.
 
+The Alberto logo is an original SVG mark used in the navigation, homepage hero, footer, and browser tab. The reusable React version is in `frontend/src/components/Brand.jsx`; the standalone file is `frontend/public/logo.svg`.
+
 ## API
 
 | Method | Path | Purpose |

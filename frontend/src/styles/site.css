@@ -32,3 +32,5 @@ main{min-height:100svh}
 .manifesto .eyebrow{color:var(--umber)}
 
 .dashboard-sidebar{display:flex;gap:1.5rem;margin:1.5rem 0 2rem}.dashboard-sidebar a{color:var(--brass);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}.dashboard-sidebar a:hover{text-decoration:underline}#watches,#messages{scroll-margin-top:90px}
+
+.brand-lockup{flex-direction:row;align-items:center;gap:.65rem;letter-spacing:normal}.brand-mark{width:36px;height:36px;flex:none;color:var(--brass)}.brand-text{display:flex;flex-direction:column}.brand-text strong{font:500 1.55rem/.9 var(--font-display);letter-spacing:.15em}.brand-text small{font:400 .46rem/1 var(--font-mono);letter-spacing:.27em;margin-top:.48rem}.brand-lockup:hover .brand-mark{color:var(--brass-bright)}.hero-identity{display:flex;align-items:center;gap:1rem}.hero-brand-mark{width:64px;height:64px;flex:none;color:var(--brass)}.hero-identity .eyebrow{margin:0}@media(max-width:760px){.brand-mark{width:30px;height:30px}.brand-text strong{font-size:1.35rem}.brand-text small{font-size:.4rem}.hero-brand-mark{width:48px;height:48px}.hero-identity{gap:.75rem}}
